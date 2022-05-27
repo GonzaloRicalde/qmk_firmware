@@ -1,5 +1,4 @@
 #include QMK_KEYBOARD_H
-#include "config.h"
 #include "declare.h"
 #include "encoder.c"
 #include "oled.c"
