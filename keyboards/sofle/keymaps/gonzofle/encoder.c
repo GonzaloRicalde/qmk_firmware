@@ -22,10 +22,11 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             }
         }
     } else if (index == 1) {
-        if (clockwise) {
-            tap_code(KC_PGDOWN);
+        //second encoder is reversed, is it because this is a split keyboard?
+        if (!clockwise) {
+            tap_code16(RALT(KC_TAB));
         } else {
-            tap_code(KC_PGUP);
+            tap_code16(RALT(S(KC_TAB)));
         }
     }
     return true;
