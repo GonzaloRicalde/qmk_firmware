@@ -20,12 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 
 enum custom_keycodes {
-    KC_QWERTY = SAFE_RANGE,
-    KC_GAME,
-    KC_LOWER,
-    KC_RAISE,
-    KC_ADJUST,
-    KC_PRVWD,
+    KC_PRVWD = SAFE_RANGE,
     KC_NXTWD,
     KC_LSTRT,
     KC_LEND,
@@ -52,9 +47,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, KC_EXLM,  KC_AT ,KC_HASH , KC_DLR , KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR,KC_LPRN, KC_RPRN, KC_PIPE,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, KC_EQL, KC_MINS, KC_PLUS, KC_LCBR, KC_RCBR,                      KC_LBRC, KC_RBRC, KC_UNDS, KC_NUBS, KC_BSLS, _______,
+      _______, KC_EQL, KC_MINS, KC_PLUS, KC_LCBR, KC_RCBR,                       KC_LBRC, KC_RBRC, KC_UNDS, KC_BSLS, KC_NUBS, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______,  _______,     _______,   MO(3), KC_RALT
+                                          _______, _______,  _______,     KC_RCTL,   MO(3), KC_RALT
                                       //`--------------------------'  `--------------------------'
   ),
 
