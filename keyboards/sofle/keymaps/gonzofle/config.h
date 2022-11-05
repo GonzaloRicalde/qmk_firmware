@@ -7,3 +7,6 @@ for more options.
 
 #define TAPPING_TERM_PER_KEY
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
+
+#define SPLIT_LED_STATE_ENABLE
+#define SPLIT_LAYER_STATE_ENABLE
