@@ -13,7 +13,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_ESC,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                               KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_BSPC,
   KC_TAB,   KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                               KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,  KC_QUOT,
   KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, KC_MPLY,            KC_GUITB, KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_RSFT,
-                 KC_NUBS, KC_LCTRL, KC_LALT, KC_LOWER, CTL_T(KC_ENT),      KC_SPC,  KC_RAISE, KC_RALT, KC_RCTRL, KC_RGUI
+                 KC_GAME, KC_LCTRL, KC_LALT, KC_LOWER, CTL_T(KC_ENT),      ALT_T(KC_SPC),  KC_RAISE, KC_RALT, LCTL_T(KC_APP), KC_RGUI
 ),
 
 /*
@@ -24,18 +24,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_ESC,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                             KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_BSPC,
   KC_TAB,   KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                             KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,  KC_QUOT,
   KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, KC_MPLY,           KC_GUITB,KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_RSFT,
-                 KC_LOWER,KC_LALT,KC_LCTRL, KC_SPC, KC_ENT,      KC_SPC,  KC_RAISE, KC_RCTRL, KC_RALT, KC_RGUI
+                 KC_GAME,KC_LALT,KC_LCTRL, KC_SPC, KC_ENT,      KC_SPC,  KC_RAISE, KC_RCTRL, KC_RALT, KC_RGUI
 ),
 
-/* 
+/*
  *LOWER
  */
 [_LOWER] = LAYOUT(
   _______,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                           KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   KC_GRV,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                            KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_F12,
-  _______, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                           PIPE , KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSLS,
+  KC_GNZALTAB , KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                           PIPE , KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSLS,
   _______,  KC_CIRC, KC_MINS, KC_PLUS, KC_LCBR, KC_RCBR, _______,         _______, KC_LBRC, KC_RBRC, KC_UNDS, KC_EQL, KC_NUBS, _______,
-                       _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______
+                       _______, _______, _______, _______, LALT(KC_SPC),       _______, _______, _______, _______, _______
 ),
 
 /*
@@ -43,13 +43,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_RAISE] = LAYOUT(
   _______, _______ , _______ , _______ , _______ , _______,                           _______,  _______ , _______,  _______,  _______, KC_GAME,
-  _______, KC_BTN2 , KC_MS_U , KC_BTN1 , KC_WH_U , KC_INS ,                           KC_PGUP , KC_PRVWD,  KC_UP , KC_NXTWD, KC_DLINE, KC_BSPC,
+  _______, KC_BTN4 , KC_MS_U , KC_BTN5 , KC_WH_U , KC_INS ,                           KC_PGUP , KC_PRVWD,  KC_UP , KC_NXTWD, KC_DLINE, KC_BSPC,
   _______, KC_MS_L , KC_MS_D , KC_MS_R , KC_WH_D , KC_CAPS,                           KC_PGDN , KC_LEFT , KC_DOWN, KC_RGHT , KC_DEL  , KC_BSPC,
   _______, KC_UNDO , KC_CUT , KC_COPY , KC_PASTE , KC_BTN3,  _______,       _______,  KC_BTN1 , KC_LSTRT, XXXXXXX, KC_LEND , LCTL_T(KC_APP), _______,
                          _______, _______, KC_BTN2, _______, KC_BTN1,       _______, _______, _______, _______, _______
 ),
 
-/* 
+/*
  * ADJUST
  */
   [_ADJUST] = LAYOUT(
@@ -61,7 +61,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
+static bool isGnzaltabEnabled = false;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
+    //intercept any key different than the gnzaltab keys to disable the alt mod
+    //
+    if(isGnzaltabEnabled==true){
+        switch(keycode){
+            case KC_GNZALTAB:
+            case KC_LSFT:
+            case KC_RSFT:
+            case KC_TAB:
+            case KC_LALT:
+            case KC_RALT:
+            break;
+            default:
+                if(get_mods() & MOD_MASK_ALT){
+                    unregister_mods(mod_config(MOD_LALT));
+                }
+                isGnzaltabEnabled=false;
+            break;
+        }
+    }
+
+
     switch (keycode) {
         case KC_QWERTY:
             if (record->event.pressed) {
@@ -69,9 +93,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         case KC_GAME:
-            if (record->event.pressed) 
+            if (record->event.pressed)
             {
-                switch (get_highest_layer(default_layer_state)) 
+                switch (get_highest_layer(default_layer_state))
                 {
                     case _QWERTY:
                         set_single_persistent_default_layer(_GAME);
@@ -240,6 +264,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 unregister_code(KC_TAB);
             }
             return false;
+
+        case KC_GNZALTAB:
+            if (record->event.pressed){
+                if(!isGnzaltabEnabled){
+                    isGnzaltabEnabled=true;
+                    register_mods(mod_config(MOD_LALT));
+                }
+                tap_code(KC_TAB);
+            }
+
     }
     return true;
 }
@@ -248,8 +282,23 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case CTL_T(KC_ENT):
             return TAPPING_TERM + 100;
+        case ALT_T(KC_SPC):
+            return TAPPING_TERM + 100;
         default:
             return TAPPING_TERM;
+    }
+}
+
+bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case ALT_T(KC_SPC):
+            // Do not force the mod-tap key press to be handled as a modifier
+            // if any other key was pressed while the mod-tap key is held down.
+            return true;
+        default:
+            // Force the mod-tap key press to be handled as a modifier if any
+            // other key was pressed while the mod-tap key is held down.
+            return false;
     }
 }
 
