@@ -31,5 +31,6 @@
     "clangd.arguments": [
         "--header-insertion=never"
     ],
-    C_Cpp.errorSquiggles": "Disabled"
+    "makefile.compileCommandsPath": "c:\\qmk_firmware\\compile_commands.json",
+    "C_Cpp.default.compileCommands": "c:\\qmk_firmware\\compile_commands.json"
 }
