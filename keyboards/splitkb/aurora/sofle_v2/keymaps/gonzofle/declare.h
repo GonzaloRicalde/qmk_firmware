@@ -3,7 +3,6 @@
 enum sofle_layers {
     /* _M_XYZ = Mac Os, _W_XYZ = Win/Linux */
     _QWERTY,
-    _GAME,
     _LOWER,
     _RAISE,
     _ADJUST,
@@ -11,7 +10,6 @@ enum sofle_layers {
 
 enum custom_keycodes {
     KC_QWERTY = SAFE_RANGE,
-    KC_GAME,
     KC_LOWER,
     KC_RAISE,
     KC_ADJUST,
@@ -21,6 +19,9 @@ enum custom_keycodes {
     KC_LEND,
     KC_DLINE,
     KC_GUITB,
-    KC_GNZALTAB
-    
+    KC_GNZALTAB,
+    GZ_LSFT,
+    GZ_RSFT,
+    GZ_LALT,
+    GZ_RALT,
 };

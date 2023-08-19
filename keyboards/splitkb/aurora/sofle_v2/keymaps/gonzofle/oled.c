@@ -14,7 +14,7 @@ static void render_logo(void) {
     bool invertLogoColors = get_highest_layer(default_layer_state) == _GAME;
 
     oled_write_P(qmk_logo, invertLogoColors);
-}    
+}
 
 static void print_status_narrow(void) {
     // Print current mode
@@ -24,15 +24,12 @@ static void print_status_narrow(void) {
     if (keymap_config.swap_lctl_lgui) {
         oled_write_ln_P(PSTR("MAC"), false);
     } else {
-        oled_write_ln_P(PSTR("WIN"), false);                            
+        oled_write_ln_P(PSTR("WIN"), false);
     }
 
     switch (get_highest_layer(default_layer_state)) {
         case _QWERTY:
             oled_write_ln_P(PSTR("Qwrt"), false);
-            break;
-        case _GAME:
-            oled_write_ln_P(PSTR("Game"), true);
             break;
         default:
             oled_write_P(PSTR("Undef"), false);
@@ -41,7 +38,6 @@ static void print_status_narrow(void) {
     // Print current layer
     oled_write_ln_P(PSTR("LAYER"), false);
     switch (get_highest_layer(layer_state)) {
-        case _GAME:
         case _QWERTY:
             oled_write_P(PSTR("Base\n"), false);
             break;
