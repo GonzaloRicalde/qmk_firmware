@@ -13,3 +13,5 @@ for more options.
 //this is so the secondary screen logo updates when game mode is on, it's a bit easier to see
 //#define SPLIT_LED_STATE_ENABLE
 #define SPLIT_LAYER_STATE_ENABLE
+#define ENCODER_RESOLUTION { 2 }
+#define ENCODER_RESOLUTION_RIGHT { 3 }
