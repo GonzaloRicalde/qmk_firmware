@@ -1,3 +1,4 @@
+#include "keycodes.h"
 #include QMK_KEYBOARD_H
 #include "declare.h"
 #include "encoder.c"
@@ -22,8 +23,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_LOWER] = LAYOUT(
   _______,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                           KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   KC_GRV,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                            KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_F12,
-  KC_GNZALTAB , KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      PIPE , KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSLS,
-  _______,  KC_CIRC, KC_MINS, KC_PLUS, KC_LCBR, KC_RCBR, _______,         _______, KC_LBRC, KC_RBRC, KC_UNDS, KC_EQL, KC_NUBS, _______,
+  KC_GNZALTAB , KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      PIPE , KC_AMPR, KC_ASTR, KC_SLSH, KC_CIRC, KC_BSLS,
+  _______,  KC_CIRC, KC_MINS, KC_PLUS, KC_LCBR, KC_RCBR, _______,         _______, KC_PLUS, KC_MINS, KC_UNDS, KC_EQL, KC_NUBS, _______,
                        _______, _______, _______, _______, LALT(KC_SPC),       _______, _______, _______, _______, _______
 ),
 
@@ -269,7 +270,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_mods(MOD_BIT(KC_LSFT));
             }else {
                 unregister_mods(MOD_BIT(KC_LSFT));
-                if(last_pressed_keycode == GZ_LSFT)
+                if(last_pressed_keycode == GZ_LSFT && !is_caps_word_on())
                 {
                     tap_code16(KC_LPRN);
                 }
@@ -280,7 +281,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_mods(MOD_BIT(KC_RSFT));
             }else {
                 unregister_mods(MOD_BIT(KC_RSFT));
-                if(last_pressed_keycode == GZ_RSFT)
+                if(last_pressed_keycode == GZ_RSFT && !is_caps_word_on())
                 {
                     tap_code16(KC_RPRN);
                 }
@@ -327,7 +328,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case ALT_T(KC_SPC):
+        case SFT_T(KC_SPC):
             // Do not select the hold action when another key is pressed.
             return false;
         default:
