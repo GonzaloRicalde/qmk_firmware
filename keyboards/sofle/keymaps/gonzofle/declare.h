@@ -22,5 +22,5 @@ enum custom_keycodes {
     KC_DLINE,
     KC_GUITB,
     KC_GNZALTAB
-    
+
 };

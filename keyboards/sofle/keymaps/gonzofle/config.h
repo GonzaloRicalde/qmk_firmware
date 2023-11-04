@@ -6,7 +6,7 @@ for more options.
 */
 
 #define TAPPING_TERM_PER_KEY
-#define IGNORE_MOD_TAP_INTERRUPT_PER_KEY // used to allow the space/shift key to prefer space over shift to prevent accidental caps when writing normally
+#define HOLD_ON_OTHER_KEY_PRESS_PER_KEY // used to allow the space/shift key to prefer space over shift to prevent accidental caps when writing normally
 
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
 
