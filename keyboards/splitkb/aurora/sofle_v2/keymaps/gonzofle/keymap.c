@@ -1,20 +1,56 @@
 #include "keycodes.h"
 #include QMK_KEYBOARD_H
-#include "declare.h"
-#include "encoder.c"
-#include "oled.c"
+
+enum sofle_layers {
+    /* _M_XYZ = Mac Os, _W_XYZ = Win/Linux */
+    _QWERTY,
+    _LOWER,
+    _RAISE,
+    _ADJUST,
+    _NUMPAD
+};
+
+enum custom_keycodes {
+    KC_QWERTY = SAFE_RANGE,
+    KC_LOWER,
+    KC_RAISE,
+    KC_ADJUST,
+    KC_PRVWD,
+    KC_NXTWD,
+    KC_LSTRT,
+    KC_LEND,
+    KC_DLINE,
+    KC_GUITB,
+    KC_GNZALTAB,
+    GZ_LSFT,
+    GZ_RSFT,
+    GZ_LALT,
+    GZ_RALT
+};
 
 #define PIPE S(KC_NUBS)
+#define G_LSFT LSFT_T(KC_LPRN)
+#define G_RSFT RSFT_T(KC_RPRN)
+#define G_LALT LALT_T(KC_LBRC)
+#define G_RALT RALT_T(KC_RBRC)
+#define G_CENT LCTL_T(KC_ENT)
+#define G_ASPC ALT_T(KC_SPC)
+#define G_RCTL LCTL_T(KC_APP)
+#define G_NUMP LT(_NUMPAD, KC_BSPC)
+
+#define G_LOWER LT(_LOWER, KC_LCBR)
+#define G_RAISE LT(_RAISE, KC_RCBR)
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
  * QWERTY
  */
 [_QWERTY] = LAYOUT(
-  KC_GRV,   KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                               KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_MINS,
-  KC_ESC,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                               KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_BSPC,
-  KC_TAB,   KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                               KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,  KC_QUOT,
-  GZ_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, KC_MPLY,            KC_GUITB, KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  GZ_RSFT,
-                 XXXXXXX, KC_LCTL, GZ_LALT, KC_LOWER, CTL_T(KC_ENT),      SFT_T(KC_SPC),  KC_RAISE, GZ_RALT, LCTL_T(KC_APP), KC_RGUI
+  KC_GRV,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                        KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_MINS,
+  KC_ESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSPC,
+  KC_TAB,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                        KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+  G_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B, KC_MPLY,                  KC_GUITB,    KC_N,    KC_M, KC_COMM, KC_DOT , KC_SLSH,  G_RSFT,
+                    G_NUMP, KC_LCTL,  G_LALT, G_LOWER,  G_CENT,                    G_ASPC, G_RAISE,  G_RALT,  G_RCTL, KC_RGUI
 ),
 
 /*
@@ -25,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_GRV,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                            KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_F12,
   KC_GNZALTAB , KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      PIPE , KC_AMPR, KC_ASTR, KC_SLSH, KC_CIRC, KC_BSLS,
   _______,  KC_CIRC, KC_MINS, KC_PLUS, KC_LCBR, KC_RCBR, _______,         _______, KC_PLUS, KC_MINS, KC_UNDS, KC_EQL, KC_NUBS, _______,
-                       _______, _______, _______, _______, LALT(KC_SPC),       _______, _______, _______, _______, _______
+                       _______, _______, _______, _______, G_CENT,       _______, _______, _______, _______, _______
 ),
 
 /*
@@ -35,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______ , _______ , _______ , _______ , _______,                           _______,  _______ , _______,  _______,  _______, _______,
   _______, KC_INS , KC_BTN4 , KC_MS_U , KC_BTN5 , KC_WH_U ,                            KC_PGUP , KC_PRVWD,  KC_UP , KC_NXTWD, KC_DLINE, KC_BSPC,
   _______, KC_CAPS, KC_MS_L , KC_MS_D , KC_MS_R , KC_WH_D ,                            KC_PGDN , KC_LEFT , KC_DOWN, KC_RGHT , KC_DEL  , KC_BSPC,
-  _______, KC_UNDO , KC_CUT , KC_COPY , KC_PASTE , KC_BTN3,  _______,       _______,  KC_BTN1 , KC_LSTRT, XXXXXXX, KC_LEND , LCTL_T(KC_APP), _______,
+  _______, KC_UNDO , KC_CUT , KC_COPY , KC_PASTE , KC_BTN3,  _______,       _______,  KC_BTN1 , KC_LSTRT, XXXXXXX, KC_LEND , G_RCTL, _______,
                          _______, _______, KC_BTN2, _______, KC_BTN1,       _______, _______, _______, _______, _______
 ),
 
@@ -48,19 +84,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   XXXXXXX , XXXXXXX,XXXXXXX, XXXXXXX,    XXXXXXX,  XXXXXXX,                      XXXXXXX, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, XXXXXXX,
   XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX,  XXXXXXX, XXXXXXX,     XXXXXXX, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX,
                    _______, _______, _______, _______, _______,     _______, _______, _______, _______, _______
+  ),
+
+/*
+ * _NUMPAD
+ */
+  [_NUMPAD] = LAYOUT(
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                     XXXXXXX,   KC_P7,   KC_P8,   KC_P9, KC_PPLS, KC_PMNS,
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                     XXXXXXX,   KC_P4,   KC_P5,   KC_P6, XXXXXXX, _______,
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                     XXXXXXX,   KC_P1,   KC_P2,   KC_P3, XXXXXXX, _______,
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX,   KC_P0, KC_PCMM, KC_PDOT, KC_PSLS, _______,
+                         _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______
   )
 };
 
 static bool isGnzaltabEnabled = false;
 
-static uint16_t last_pressed_keycode;
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-
-    if(record->event.pressed)
-    {
-        last_pressed_keycode = keycode;
-    }
 
     //intercept any key different than the gnzaltab keys to disable the alt mod
     //
@@ -96,10 +136,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             } else {
                 layer_off(_LOWER);
                 update_tri_layer(_LOWER, _RAISE, _ADJUST);
-                if(last_pressed_keycode == KC_LOWER)
-                {
-                    tap_code16(KC_LCBR);
-                }
             }
             return false;
         case KC_RAISE:
@@ -109,11 +145,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             } else {
                 layer_off(_RAISE);
                 update_tri_layer(_LOWER, _RAISE, _ADJUST);
-
-                if(last_pressed_keycode == KC_RAISE)
-                {
-                    tap_code16(KC_RCBR);
-                }
             }
             return false;
         case KC_ADJUST:
@@ -264,53 +295,65 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
 
-        // gonz holds
-        case GZ_LSFT:
-            if(record->event.pressed){
-                register_mods(MOD_BIT(KC_LSFT));
-            }else {
-                unregister_mods(MOD_BIT(KC_LSFT));
-                if(last_pressed_keycode == GZ_LSFT && !is_caps_word_on())
-                {
-                    tap_code16(KC_LPRN);
-                }
-            }
-            break;
-        case GZ_RSFT:
-            if(record->event.pressed){
-                register_mods(MOD_BIT(KC_RSFT));
-            }else {
-                unregister_mods(MOD_BIT(KC_RSFT));
-                if(last_pressed_keycode == GZ_RSFT && !is_caps_word_on())
-                {
-                    tap_code16(KC_RPRN);
-                }
+        case G_LOWER:
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(KC_LCBR);
+                return false;
             }
             break;
 
-        case GZ_LALT:
-            if(record->event.pressed){
-                register_mods(MOD_BIT(KC_LALT));
-            }else {
-                unregister_mods(MOD_BIT(KC_LALT));
-                if(last_pressed_keycode == GZ_LALT)
-                {
-                    tap_code16(KC_LBRC);
-                }
-            }
-            break;
-        case GZ_RALT:
-            if(record->event.pressed){
-                register_mods(MOD_BIT(KC_RALT));
-            }else {
-                unregister_mods(MOD_BIT(KC_RALT));
-                if(last_pressed_keycode == GZ_RALT)
-                {
-                    tap_code16(KC_RBRC);
-                }
+        case G_RAISE:
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(KC_RCBR);
+                return false;
             }
             break;
 
+        case G_LSFT:
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(KC_LPRN);
+                return false;
+            }
+            break;
+
+        case G_RSFT:
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(KC_RPRN);
+                return false;
+            }
+            break;
+
+        case G_LALT:
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(KC_LBRC);
+                return false;
+            }
+            break;
+
+        case G_RALT:
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(KC_RBRC);
+                return false;
+            }
+            break;
+        // case G_NUMP:
+        //     if (record->tap.count && record->event.pressed) {
+        //         tap_code16(KC_BSPC); //tap
+        //     } else if ( record->event.pressed){
+        //         layer_invert(_NUMPAD);
+        //     }
+        //     return false;
+        //     break;
+        case G_ASPC:
+            if (record->tap.count && record->event.pressed) {
+                if((get_mods() & MOD_MASK_SHIFT) || is_caps_word_on()){
+                    tap_code16(KC_UNDS);
+                }else {
+                    tap_code16(KC_SPC);
+                }
+                return false;
+            }
+            break;
     }
     return true;
 }
@@ -321,6 +364,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return TAPPING_TERM + 100;
         case ALT_T(KC_SPC):
             return TAPPING_TERM + 100;
+        case G_NUMP:
+            return TAPPING_TERM + 200;
         default:
             return TAPPING_TERM;
     }
@@ -336,6 +381,28 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
             return true;
     }
 }
+
+#ifdef ENCODER_ENABLE
+
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    if (index == 0) {
+        if (clockwise) {
+            tap_code(KC_MNXT);
+        } else {
+            tap_code(KC_MPRV);
+        }
+    } else if (index == 1) {
+        if (!clockwise) {
+            tap_code16(C(KC_Z));
+        } else {
+            tap_code16(C(KC_Y));
+        }
+    }
+    return false;
+}
+
+#endif
+
 
 #undef PIPE
 
